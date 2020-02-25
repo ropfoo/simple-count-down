@@ -25,6 +25,7 @@ const countDown = {
   start() {
     //set inital endTime to current time
     this.endTime = new Date();
+
     //Check which state the user selected
     //Add timer time to current time (endTime)
     if (this.durationState === 's') {
@@ -44,29 +45,16 @@ const countDown = {
 
     this.countInterval = setInterval(() => {
       if (this.running) {
-        const distance = this.endTime.getTime() - new Date().getTime();
-
-        this.timeValues.days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        this.timeValues.hours = Math.floor(
-          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        this.timeValues.minutes = Math.floor(
-          (distance % (1000 * 60 * 60)) / (1000 * 60)
-        );
-        this.timeValues.seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        this.pauseTime = new Date();
-        this.displayTime();
+        this.updateTimer();
       }
-    }, 1000);
+    }, 300);
   },
   stop() {
-    this.running = false;
+    //this.running = false;
     this.wasPaused = true;
+
     clearInterval(this.countInterval);
-    // console.log('Pause Time:' + this.endTime);
     this.displayTime();
-    // this.endTime.setTime();
   },
   displayTime() {
     if (this.durationState === 's') {
@@ -99,6 +87,25 @@ const countDown = {
   },
   setNumber(num) {
     this.number = num;
+  },
+  updateTimer() {
+    const distance = this.endTime.getTime() - new Date().getTime();
+    if (distance > 0) {
+      this.timeValues.days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      this.timeValues.hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      this.timeValues.minutes = Math.floor(
+        (distance % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      this.timeValues.seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    } else {
+      this.running = false;
+      this.stop();
+    }
+
+    this.pauseTime = new Date();
+    this.displayTime();
   }
 };
 numberWrapper.textContent = initNumber + countDown.durationState;
