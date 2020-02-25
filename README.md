@@ -6,6 +6,7 @@ A simple to use count down app that counts down in seconds.\
 - [ ] hours support
 - [x] minutes support
 - [ ] visual indicator when count down is at 0
+- [ ] replace dropdown with text input (e.g. '3m20s')
 
 ### Bugs to fix:
 - [x] 2 second jump on start
