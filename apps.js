@@ -108,6 +108,8 @@ let startActive = true;
 durationSelector.addEventListener('change', e => {
   countDown.durationState = e.target.value;
   numberWrapper.textContent = countDown.number + countDown.durationState;
+  countDown.wasPaused = false;
+
   console.log(e.target.value);
 });
 
