@@ -8,7 +8,13 @@
 </head>
 <body>
     <div class="count-down">
-        <input class='input' id="count-input" placeholder="Type in a number" type="text">
+        <div class ="input-wrapper" id="input-wrapper">
+            <input class='' id="count-input" placeholder="Type in a number" type="text">
+            <select id="duration-selector">
+                <option value="s">seconds</option>
+                <option value="m">minutes</option>
+            </select>
+        </div>
         <div id="count-down-number" data-number="30"></div>
         <button id="start-btn">start</button>
     </div>
