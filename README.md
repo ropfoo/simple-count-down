@@ -9,7 +9,7 @@ A simple to use count down app that counts down in seconds.\
 - [ ] replace dropdown with text input (e.g. '3m20s')
 
 ### Bugs to fix:
-- [x] 2 second jump on start
+- [ ] 2 second jump on start
 - [ ] only numbers between 0 and 60 are accepted
 
 

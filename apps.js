@@ -10,6 +10,7 @@ countDownNumber.appendChild(numberWrapper);
 
 const countDown = {
   running: false,
+  initialCall: true,
   number: initNumber,
   endTime: new Date(),
   wasPaused: false,
@@ -43,16 +44,35 @@ const countDown = {
       }
     }
 
-    this.countInterval = setInterval(() => {
-      if (this.running) {
-        this.updateTimer();
+    const update = () => {
+      if (this.initialCall) {
+        this.countInterval = setInterval(() => {
+          if (this.running) {
+            this.updateTimer();
+            console.log('update ');
+          } else {
+            clearInterval(this.countInterval);
+          }
+        }, 1000);
+      } else {
+        this.countInterval = setInterval(() => {
+          if (this.running) {
+            this.updateTimer();
+            console.log('update ');
+            this.initialCall = true;
+            clearInterval(this.countInterval);
+            update();
+          }
+        }, 1);
       }
-    }, 300);
+    };
+    update();
   },
   stop() {
-    //this.running = false;
+    this.running = false;
     this.wasPaused = true;
-
+    this.initialCall = false;
+    //countDown.updateTimer();
     clearInterval(this.countInterval);
     this.displayTime();
   },
@@ -127,15 +147,14 @@ countInput.addEventListener('input', e => {
   countDown.wasPaused = false;
 
   numberWrapper.textContent = countDown.number + countDown.durationState;
-
-  //countDown.number = number;
-  //countDown.stop();
 });
 
 startBtn.addEventListener('click', e => {
   if (startActive) {
     countDown.running = true;
     countDown.start(countDown.number);
+    countDown.updateTimer();
+
     countInput.value = '';
     startActive = false;
     e.target.textContent = 'stop';
@@ -144,6 +163,7 @@ startBtn.addEventListener('click', e => {
   } else {
     countDown.stop();
     startActive = true;
+
     e.target.style.background = 'rgb(194, 255, 103)';
     e.target.textContent = 'start';
     inputWrapper.classList.remove('input-wrapper-invisible');
