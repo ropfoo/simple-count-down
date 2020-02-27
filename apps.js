@@ -3,18 +3,15 @@ const startBtn = document.getElementById('start-btn');
 const inputWrapper = document.getElementById('input-wrapper');
 
 const countDownNumber = document.getElementById('count-down-number');
-let initNumber = 20;
 const numberWrapper = document.createElement('h1');
 countDownNumber.appendChild(numberWrapper);
 
 const countDown = {
   running: false,
-  initialCall: true,
-  input: '',
-  number: initNumber,
+  initialCall: false,
+  input: '30s',
   endTime: new Date(),
   wasPaused: false,
-  pauseTime: new Date(),
   durationState: 's',
   timeValues: {
     days: 0,
@@ -29,7 +26,6 @@ const countDown = {
 
     //Check which state the user selected
     //Add timer time to current time (endTime)
-
     if (this.durationState === 's') {
       this.setTime('s', this.endTime);
     } else if (this.durationState === 'm') {
@@ -136,7 +132,7 @@ const countDown = {
     this.displayTime();
   }
 };
-numberWrapper.textContent = initNumber + countDown.durationState;
+numberWrapper.textContent = countDown.input;
 
 let startActive = true;
 
@@ -156,7 +152,8 @@ countInput.addEventListener('input', e => {
 startBtn.addEventListener('click', e => {
   if (startActive) {
     countDown.running = true;
-    countDown.start(countDown.number);
+
+    countDown.start();
     countDown.updateTimer();
 
     countInput.value = '';
@@ -176,7 +173,6 @@ startBtn.addEventListener('click', e => {
 
 const stringInterpreter = string => {
   const characters = string.split('');
-  console.log(characters);
   countDown.durationState = checkRequiredState(characters);
   let num = [];
   for (let i = 0; i < characters.length; i++) {
@@ -221,3 +217,4 @@ const isValidCharacter = char => {
     return 'invalid';
   }
 };
+stringInterpreter(countDown.input);
