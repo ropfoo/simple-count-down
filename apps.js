@@ -34,6 +34,8 @@ const countDown = {
       this.setTime('s', this.endTime);
     } else if (this.durationState === 'm') {
       this.setTime('m', this.endTime);
+    } else if (this.durationState === 'h') {
+      this.setTime('h', this.endTime);
     }
 
     this.updateTimer();
@@ -76,6 +78,14 @@ const countDown = {
     } else if (this.durationState === 'm') {
       numberWrapper.textContent =
         this.timeValues.minutes + 'm ' + this.timeValues.seconds + 's ';
+    } else if (this.durationState === 'h') {
+      numberWrapper.textContent =
+        this.timeValues.hours +
+        'h ' +
+        this.timeValues.minutes +
+        'm ' +
+        this.timeValues.seconds +
+        's ';
     } else {
       numberWrapper.textContent =
         this.timeValues.days +
@@ -97,6 +107,10 @@ const countDown = {
       time.setSeconds(time.getSeconds() + this.timeValues.seconds);
       time.setMinutes(time.getMinutes() + this.timeValues.minutes);
       time.setHours(time.getHours());
+    } else if (state === 'h') {
+      time.setSeconds(time.getSeconds() + this.timeValues.seconds);
+      time.setMinutes(time.getMinutes() + this.timeValues.minutes);
+      time.setHours(time.getHours() + this.timeValues.hours);
     }
   },
   setNumber(num) {
@@ -173,6 +187,8 @@ const stringInterpreter = string => {
         countDown.timeValues.seconds = parseInt(num.join(''));
       } else if (characters[i] === 'm') {
         countDown.timeValues.minutes = parseInt(num.join(''));
+      } else if (characters[i] === 'h') {
+        countDown.timeValues.hours = parseInt(num.join(''));
       }
       num = [];
     }
@@ -180,17 +196,23 @@ const stringInterpreter = string => {
 };
 
 const checkRequiredState = chars => {
-  if (chars.includes('s') && chars.includes('m')) {
+  if (chars.includes('s') && chars.includes('m') && chars.includes('h')) {
+    return 'h';
+  } else if (chars.includes('h') && chars.includes('m')) {
+    return 'h';
+  } else if (chars.includes('s') && chars.includes('m')) {
     return 'm';
   } else if (chars.includes('s')) {
     return 's';
   } else if (chars.includes('m')) {
     return 'm';
+  } else if (chars.includes('h')) {
+    return 'h';
   }
 };
 
 const isValidCharacter = char => {
-  const validChars = ['m', 's'];
+  const validChars = ['h', 'm', 's'];
   if (!isNaN(parseInt(char))) {
     return 'num';
   } else if (validChars.includes(char)) {

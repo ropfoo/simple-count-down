@@ -6,7 +6,7 @@ A simple to use count down app that counts down in seconds.\
 Simply type in a costum count down durtation like '20m 15s' to start a timer running down to 0.
 
 ### Planned:
-- [ ] hours support
+- [x] hours support
 - [x] minutes support
 - [ ] visual indicator when count down is at 0
 - [x] replace dropdown with text input (e.g. '3m 20s')
