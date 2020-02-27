@@ -43,6 +43,7 @@ const countDown = {
         this.setTime('m', this.endTime);
       }
     }
+    this.updateTimer();
 
     const update = () => {
       if (this.initialCall) {
