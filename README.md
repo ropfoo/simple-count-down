@@ -14,7 +14,7 @@ Simply type in a custom count down durtation like '20m 15s' to start a timer run
 
 ### Bugs to fix:
 - [x] 2 second jump on start
-- [ ] input is not responsive
+- [x] input is not responsive
 
 
 
