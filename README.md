@@ -3,12 +3,12 @@ A simple to use count down app that counts down in seconds.\
 [Check it out](https://ropfoo.github.io/Simple-Count-Down/)
 
 ## How it works
-Simply type in a costum count down durtation like '20m 15s' to start a timer running down to 0.
+Simply type in a custom count down durtation like '20m 15s' to start a timer running down to 0.
 
 ### Planned:
 - [x] hours support
 - [x] minutes support
-- [ ] visual indicator when count down is at 0
+- [x] visual indicator when count down is at 0
 - [x] replace dropdown with text input (e.g. '3m 20s')
 - [ ] better visual error handling
 

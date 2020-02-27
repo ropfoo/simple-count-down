@@ -46,7 +46,7 @@ body{
 input{
     font-family: 'Poppins', sans-serif;
     font-size: 1.2rem;
-    text-align: left;
+    text-align: center;
     color: rgb(121, 121, 121);
     border: none;
     background: none;
@@ -66,3 +66,19 @@ button{
     box-shadow: .1rem .1rem .1rem 0px rgba(0, 0, 0, .2), -0.1rem -0.1rem .1rem 0px rgba(255, 255, 255, .7);
 
 }
+
+.count-down-finished{
+    animation: .5s infinite linear countDownFinished;
+    animation-direction: alternate;
+}
+
+
+@keyframes countDownFinished{
+    from{
+        background:#ecebea; 
+    }
+    to{
+        background:#ad3b61;
+     }
+
+    }

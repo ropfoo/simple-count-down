@@ -1,3 +1,4 @@
+const body = document.querySelector('body');
 const countInput = document.getElementById('count-input');
 const startBtn = document.getElementById('start-btn');
 const inputWrapper = document.getElementById('input-wrapper');
@@ -41,7 +42,7 @@ const countDown = {
         this.countInterval = setInterval(() => {
           if (this.running) {
             this.updateTimer();
-            console.log('update ');
+            // console.log('update ');
           } else {
             clearInterval(this.countInterval);
           }
@@ -50,7 +51,7 @@ const countDown = {
         this.countInterval = setInterval(() => {
           if (this.running) {
             this.updateTimer();
-            console.log('update ');
+            //console.log('update ');
             this.initialCall = true;
             clearInterval(this.countInterval);
             update();
@@ -126,6 +127,7 @@ const countDown = {
     } else {
       this.running = false;
       this.stop();
+      body.classList.add('count-down-finished');
     }
 
     this.pauseTime = new Date();
@@ -137,7 +139,6 @@ numberWrapper.textContent = countDown.input;
 let startActive = true;
 
 countInput.addEventListener('input', e => {
-  console.log(e.target.value);
   // countDown.setNumber(Number(e.target.value));
 
   //console.log('cd Num: ' + countDown.number);
@@ -150,6 +151,7 @@ countInput.addEventListener('input', e => {
 });
 
 startBtn.addEventListener('click', e => {
+  body.classList.remove('count-down-finished');
   if (startActive) {
     countDown.running = true;
 
@@ -175,18 +177,24 @@ const stringInterpreter = string => {
   const characters = string.split('');
   countDown.durationState = checkRequiredState(characters);
   let num = [];
-  for (let i = 0; i < characters.length; i++) {
-    if (isValidCharacter(characters[i]) === 'num') {
-      num.push(characters[i]);
-    } else {
-      if (characters[i] === 's') {
-        countDown.timeValues.seconds = parseInt(num.join(''));
-      } else if (characters[i] === 'm') {
-        countDown.timeValues.minutes = parseInt(num.join(''));
-      } else if (characters[i] === 'h') {
-        countDown.timeValues.hours = parseInt(num.join(''));
+  if (Number(characters.join(''))) {
+    countDown.timeValues.seconds = parseInt(characters.join(''));
+  } else {
+    for (let i = 0; i < characters.length; i++) {
+      if (isValidCharacter(characters[i]) === 'num') {
+        num.push(characters[i]);
+      } else if (characters[i] === 'invalid') {
+        console.log('invalid');
+      } else {
+        if (characters[i] === 's') {
+          countDown.timeValues.seconds = parseInt(num.join(''));
+        } else if (characters[i] === 'm') {
+          countDown.timeValues.minutes = parseInt(num.join(''));
+        } else if (characters[i] === 'h') {
+          countDown.timeValues.hours = parseInt(num.join(''));
+        }
+        num = [];
       }
-      num = [];
     }
   }
 };
@@ -201,9 +209,15 @@ const checkRequiredState = chars => {
   } else if (chars.includes('s')) {
     return 's';
   } else if (chars.includes('m')) {
+    countDown.timeValues.seconds = 0;
+    countDown.timeValues.hours = 0;
     return 'm';
   } else if (chars.includes('h')) {
+    countDown.timeValues.seconds = 0;
+    countDown.timeValues.minutes = 0;
     return 'h';
+  } else {
+    return 's';
   }
 };
 
