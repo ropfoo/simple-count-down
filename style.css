@@ -33,7 +33,7 @@ body{
 
 .input-wrapper{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: 30%;
     opacity: 1;
@@ -50,13 +50,7 @@ input{
     color: rgb(121, 121, 121);
     border: none;
     background: none;
-
-}
-
-select{
-    font-family: 'Poppins', sans-serif;
-    color: rgb(121, 121, 121);
-    font-size: .9rem;
+    width: 100%;
 
 }
 

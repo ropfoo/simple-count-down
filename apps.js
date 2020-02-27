@@ -1,7 +1,6 @@
 const countInput = document.getElementById('count-input');
 const startBtn = document.getElementById('start-btn');
 const inputWrapper = document.getElementById('input-wrapper');
-const durationSelector = document.getElementById('duration-selector');
 
 const countDownNumber = document.getElementById('count-down-number');
 let initNumber = 20;
@@ -11,6 +10,7 @@ countDownNumber.appendChild(numberWrapper);
 const countDown = {
   running: false,
   initialCall: true,
+  input: '',
   number: initNumber,
   endTime: new Date(),
   wasPaused: false,
@@ -29,20 +29,13 @@ const countDown = {
 
     //Check which state the user selected
     //Add timer time to current time (endTime)
+
     if (this.durationState === 's') {
-      if (!this.wasPaused) {
-        console.log('num is:' + this.number);
-        this.endTime.setSeconds(this.endTime.getSeconds() + this.number);
-      } else {
-        this.setTime('s', this.endTime);
-      }
+      this.setTime('s', this.endTime);
     } else if (this.durationState === 'm') {
-      if (!this.wasPaused) {
-        this.endTime.setMinutes(this.endTime.getMinutes() + this.number);
-      } else {
-        this.setTime('m', this.endTime);
-      }
+      this.setTime('m', this.endTime);
     }
+
     this.updateTimer();
 
     const update = () => {
@@ -133,21 +126,17 @@ numberWrapper.textContent = initNumber + countDown.durationState;
 
 let startActive = true;
 
-durationSelector.addEventListener('change', e => {
-  countDown.durationState = e.target.value;
-  numberWrapper.textContent = countDown.number + countDown.durationState;
-  countDown.wasPaused = false;
-
-  console.log(e.target.value);
-});
-
 countInput.addEventListener('input', e => {
   console.log(e.target.value);
-  countDown.setNumber(Number(e.target.value));
-  console.log('cd Num: ' + countDown.number);
+  // countDown.setNumber(Number(e.target.value));
+
+  //console.log('cd Num: ' + countDown.number);
+  countDown.input = e.target.value;
+  stringInterpreter(countDown.input);
+
   countDown.wasPaused = false;
 
-  numberWrapper.textContent = countDown.number + countDown.durationState;
+  numberWrapper.textContent = e.target.value;
 });
 
 startBtn.addEventListener('click', e => {
@@ -170,3 +159,43 @@ startBtn.addEventListener('click', e => {
     inputWrapper.classList.remove('input-wrapper-invisible');
   }
 });
+
+const stringInterpreter = string => {
+  const characters = string.split('');
+  console.log(characters);
+  countDown.durationState = checkRequiredState(characters);
+  let num = [];
+  for (let i = 0; i < characters.length; i++) {
+    if (isValidCharacter(characters[i]) === 'num') {
+      num.push(characters[i]);
+    } else {
+      if (characters[i] === 's') {
+        countDown.timeValues.seconds = parseInt(num.join(''));
+      } else if (characters[i] === 'm') {
+        countDown.timeValues.minutes = parseInt(num.join(''));
+      }
+      num = [];
+    }
+  }
+};
+
+const checkRequiredState = chars => {
+  if (chars.includes('s') && chars.includes('m')) {
+    return 'm';
+  } else if (chars.includes('s')) {
+    return 's';
+  } else if (chars.includes('m')) {
+    return 'm';
+  }
+};
+
+const isValidCharacter = char => {
+  const validChars = ['m', 's'];
+  if (!isNaN(parseInt(char))) {
+    return 'num';
+  } else if (validChars.includes(char)) {
+    return char;
+  } else {
+    return 'invalid';
+  }
+};
