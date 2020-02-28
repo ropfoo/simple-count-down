@@ -7,39 +7,7 @@
 }
 
 body{
-    background: linear-gradient(to bottom, #ecebea, #ffffff); }
-
-.count-down{
-    font-family: 'Poppins', sans-serif;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.count-down h1{
-    font-size: 3rem;
-}
-
-.btn-interface{
-    display: flex;
-}
-
-.input-wrapper-invisible{
-    opacity: 0;
-    transform: translateY(-20rem);
-}
-
-.input-wrapper{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 1;
-    transition: .7s;
-    padding: .5rem 1rem .5rem 1rem;
-    border-radius: .8rem;
-    box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, .2), -1.5px -1.5px 1.5px 0px rgba(255, 255, 255, .7);
+    background: linear-gradient(to bottom, #ecebea, #ffffff); 
 }
 
 input{
@@ -63,13 +31,41 @@ button{
     border-radius: 1rem;
     box-shadow: .1rem .1rem .1rem 0px rgba(0, 0, 0, .2), -0.1rem -0.1rem .1rem 0px rgba(255, 255, 255, .7);
 
+}   
+
+.count-down{
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.count-down-finished{
+.count-down--finished{
     animation: .5s infinite linear countDownFinished;
     animation-direction: alternate;
 }
 
+.count-down h1{
+    font-size: 4rem;
+}
+
+.count-down__input-wrapper--invisible{
+    opacity: 0;
+    transform: translateY(-20rem);
+}
+
+.count-down__input-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: .7s;
+    padding: .5rem 1rem .5rem 1rem;
+    border-radius: .8rem;
+    box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, .2), -1.5px -1.5px 1.5px 0px rgba(255, 255, 255, .7);
+}
 
 @keyframes countDownFinished{
     from{

@@ -1,13 +1,7 @@
 const body = document.querySelector('body');
-const countInput = document.getElementById('count-input');
-const startBtn = document.getElementById('start-btn');
-const inputWrapper = document.getElementById('input-wrapper');
-
-const countDownNumber = document.getElementById('count-down-number');
-const numberWrapper = document.createElement('h1');
-countDownNumber.appendChild(numberWrapper);
-
+const numberWrapper = document.getElementById('count-down__display');
 const countDown = {
+  display: '',
   running: false,
   initialCall: false,
   input: '30s',
@@ -127,58 +121,22 @@ const countDown = {
     } else {
       this.running = false;
       this.stop();
-      body.classList.add('count-down-finished');
+      body.classList.add('count-down--finished');
     }
 
     this.pauseTime = new Date();
     this.displayTime();
   }
 };
+
 numberWrapper.textContent = countDown.input;
 
-let startActive = true;
-
-countInput.addEventListener('input', e => {
-  // countDown.setNumber(Number(e.target.value));
-
-  //console.log('cd Num: ' + countDown.number);
-  countDown.input = e.target.value;
-  stringInterpreter(countDown.input);
-
-  countDown.wasPaused = false;
-
-  numberWrapper.textContent = e.target.value;
-});
-
-startBtn.addEventListener('click', e => {
-  body.classList.remove('count-down-finished');
-  if (startActive) {
-    countDown.running = true;
-
-    countDown.start();
-    countDown.updateTimer();
-
-    countInput.value = '';
-    startActive = false;
-    e.target.textContent = 'stop';
-    e.target.style.background = 'indianred';
-    inputWrapper.classList.add('input-wrapper-invisible');
-  } else {
-    countDown.stop();
-    startActive = true;
-
-    e.target.style.background = 'rgb(194, 255, 103)';
-    e.target.textContent = 'start';
-    inputWrapper.classList.remove('input-wrapper-invisible');
-  }
-});
-
-const stringInterpreter = string => {
+export const stringInterpreter = (string, cd) => {
   const characters = string.split('');
-  countDown.durationState = checkRequiredState(characters);
+  cd.durationState = checkRequiredState(characters, cd);
   let num = [];
   if (Number(characters.join(''))) {
-    countDown.timeValues.seconds = parseInt(characters.join(''));
+    cd.timeValues.seconds = parseInt(characters.join(''));
   } else {
     for (let i = 0; i < characters.length; i++) {
       if (isValidCharacter(characters[i]) === 'num') {
@@ -187,11 +145,11 @@ const stringInterpreter = string => {
         console.log('invalid');
       } else {
         if (characters[i] === 's') {
-          countDown.timeValues.seconds = parseInt(num.join(''));
+          cd.timeValues.seconds = parseInt(num.join(''));
         } else if (characters[i] === 'm') {
-          countDown.timeValues.minutes = parseInt(num.join(''));
+          cd.timeValues.minutes = parseInt(num.join(''));
         } else if (characters[i] === 'h') {
-          countDown.timeValues.hours = parseInt(num.join(''));
+          cd.timeValues.hours = parseInt(num.join(''));
         }
         num = [];
       }
@@ -199,7 +157,7 @@ const stringInterpreter = string => {
   }
 };
 
-const checkRequiredState = chars => {
+const checkRequiredState = (chars, cd) => {
   if (chars.includes('s') && chars.includes('m') && chars.includes('h')) {
     return 'h';
   } else if (chars.includes('h') && chars.includes('m')) {
@@ -209,12 +167,12 @@ const checkRequiredState = chars => {
   } else if (chars.includes('s')) {
     return 's';
   } else if (chars.includes('m')) {
-    countDown.timeValues.seconds = 0;
-    countDown.timeValues.hours = 0;
+    cd.timeValues.seconds = 0;
+    cd.timeValues.hours = 0;
     return 'm';
   } else if (chars.includes('h')) {
-    countDown.timeValues.seconds = 0;
-    countDown.timeValues.minutes = 0;
+    cd.timeValues.seconds = 0;
+    cd.timeValues.minutes = 0;
     return 'h';
   } else {
     return 's';
@@ -231,4 +189,5 @@ const isValidCharacter = char => {
     return 'invalid';
   }
 };
-stringInterpreter(countDown.input);
+
+export default countDown;
